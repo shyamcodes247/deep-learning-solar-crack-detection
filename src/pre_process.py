@@ -23,7 +23,7 @@ def transform_data():
     return train_transform, eval_transform
 
 def get_dataloaders(data_root="data", batch_size=32, num_workers=2):
-    train_transform, eval_transform = get_transforms()
+    train_transform, eval_transform = transform_data()
 
     train_dataset = datasets.ImageFolder(f"{data_root}/train", transform=train_transform)
     val_dataset   = datasets.ImageFolder(f"{data_root}/val",   transform=eval_transform)
