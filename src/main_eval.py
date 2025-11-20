@@ -1,5 +1,5 @@
 import torch
-from src.dataset import get_dataloaders
+from src.pre_process import get_dataloaders
 from src.model import build_model
 from src.eval import evaluate_model
 
