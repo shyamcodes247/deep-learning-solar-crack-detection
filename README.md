@@ -30,20 +30,6 @@ This project demonstrates how deep learning can support scalable, automated insp
 Dataset: **Dataset of Solar Cells Defect Segmentation**  
 Source: https://www.kaggle.com/datasets/yaozhang01182010/dataset-of-solar-cells-defect-segmentation
 
-Directory structure:
-
-data/
-├── train/
-│ ├── crack/
-│ └── no_crack/
-├── val/
-│ ├── crack/
-│ └── no_crack/
-└── test/
-├── crack/
-└── no_crack/
-
-
 ---
 
 ## 🧠 Model Architecture
@@ -84,26 +70,26 @@ python eval.py
 
 This command prints key metrics, including:
 
-Accuracy
+* Accuracy
 
-Sensitivity (recall for crack detection)
+* Sensitivity (recall for crack detection)
 
-Specificity
+* Specificity
 
-ROC–AUC
+* ROC–AUC
 
-Confusion matrix values
+## Confusion matrix values
 
 Example output:
-Accuracy: 92.54%
-Sensitivity: 89.73%
-Specificity: 94.10%
-AUC: 0.96
+* Accuracy: 92.54%
+* Sensitivity: 89.73%
+* Specificity: 94.10%
+* AUC: 0.96
 
-📊 Results
-Metric	Score
-Accuracy	0.92
-Sensitivity	0.89
-Specificity	0.94
-AUC	0.96
-ROC Curve
+## 📊 Results
+* Accuracy: 0.92
+* Sensitivity: 0.89
+* Specificity: 0.94
+* AUC: 0.96
+
+## ROC Curve
