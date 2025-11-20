@@ -84,13 +84,13 @@ python eval.py
 
 This command prints key metrics, including:
 
-# Accuracy
+Accuracy
 
-# Sensitivity (recall for crack detection)
+Sensitivity (recall for crack detection)
 
-# Specificity
+Specificity
 
-# ROC–AUC
+ROC–AUC
 
 Confusion matrix values
 
