@@ -1,4 +1,3 @@
-# deep-learning-solar-crack-detection
 # 🪐 Solar Cell Crack Detection using Deep Learning (ResNet18 + PyTorch)
 
 > Automatically detect micro-cracks in solar cells using AI.
