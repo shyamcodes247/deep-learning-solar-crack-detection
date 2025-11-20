@@ -1,5 +1,5 @@
 import torch
-from src.dataset import get_dataloaders
+from src.pre_process import get_dataloaders
 from src.model import build_model
 from src.train import train_model
 
@@ -36,7 +36,7 @@ def main():
         train_loader=train_loader,
         val_loader=val_loader,
         device=device,
-        num_epochs=35,
+        num_epochs=1,
         lr=0.035,  # chosen to match the paper's experimental setup
     )
 
