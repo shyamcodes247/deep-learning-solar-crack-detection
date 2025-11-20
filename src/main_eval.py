@@ -2,6 +2,7 @@ import torch
 from pre_process import get_dataloaders
 from model import build_model
 from eval import evaluate_model
+from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_ROOT = PROJECT_ROOT / "data"
