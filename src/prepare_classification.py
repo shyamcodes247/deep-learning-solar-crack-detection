@@ -4,12 +4,12 @@ import cv2
 import shutil
 
 # Path to the dataset you downloaded from Kaggle, SolarCells and its subsets
-DATASET_ROOT = Path("data/SolarCells")   # change to SolarCells, SolarCells-S, PVEL-S
+DATASET_ROOT = Path("data")  
 
 #simplify the path, this:
-#"C:\\Users\\HP\\Desktop\\project\\data\\SolarCells"
+#"C:\\Users\\HP\\Desktop\\project\\data"
 #becomes this:
-#Path("data/SolarCells")
+#Path("data")
 
 
 # Where to save classification dataset
@@ -20,30 +20,47 @@ def prepare_split(split):
     img_dir = DATASET_ROOT / split / "defect"
     mask_dir = DATASET_ROOT / split / "label"
 
+    print("Checking split:", split)
+    print("Looking in:", img_dir)
+
     #for each image->create mask path->
-    for img_path in img_dir.glob("*.jpg"):
-        #mask_path = mask_dir / img_path.name, this is if image name is the same
+    for ext in ["*.jpg", "*.jpeg", "*.png"]:
 
-        #Find mask with pattern "<name>_mask.*"
-        mask_candidates = list(mask_dir.glob(img_path.stem + "_mask.*"))
-        if len(mask_candidates) == 0:
-            print("WARNING: No mask found for", img_path.name)
-            continue
+        for img_path in img_dir.glob(ext):
+            print("Found image:", img_path.name)
 
-        mask_path = mask_candidates[0]
+            # --------------------------------------
+            # FIXED: handle same-name masks (1571.jpg)
+            # --------------------------------------
+            # FIRST try matching exactly the same name (e.g. 1571.jpg)
+            mask_candidates = list(mask_dir.glob(img_path.stem + ".*"))
 
-        # Load mask, read mask, load in grayscale
-        mask = cv2.imread(str(mask_path), cv2.IMREAD_GRAYSCALE)
+            # ensure mask file matches SAME name and valid extension
+            mask_candidates = [
+                m for m in mask_candidates
+                if m.suffix.lower() in [".jpg", ".jpeg", ".png"] 
+                and m.name == img_path.name
+            ]
 
-        # Decide classification label, below 10 might be noise
-        label = "crack" if np.any(mask > 10) else "no_crack"
+            if len(mask_candidates) == 0:
+                #print("WARNING: No mask found for", img_path.name)
+                continue
 
-        # Create output folder
-        out_dir = OUT / split / label
-        out_dir.mkdir(parents=True, exist_ok=True) #create parent directories if they don't exist (for first image0, if exist then continue)
+            mask_path = mask_candidates[0]
+            # --------------------------------------
 
-        # Copy image
-        shutil.copy(img_path, out_dir / img_path.name)
+            # Load mask, read mask, load in grayscale
+            mask = cv2.imread(str(mask_path), cv2.IMREAD_GRAYSCALE)
+
+            # Decide classification label, below 10 might be noise
+            label = "1_crack" if np.any(mask > 10) else "0_no_crack"
+
+            # Create output folder
+            out_dir = OUT / split / label
+            out_dir.mkdir(parents=True, exist_ok=True)
+
+            # Copy image
+            shutil.copy(img_path, out_dir / img_path.name)
 
 def main():
     prepare_split("train")
