@@ -1,8 +1,10 @@
 import torch
-from src.pre_process import get_dataloaders
-from src.model import build_model
-from src.eval import evaluate_model
+from pre_process import get_dataloaders
+from model import build_model
+from eval import evaluate_model
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = PROJECT_ROOT / "data"
 
 def main():
     # Select the best available compute device:
@@ -13,7 +15,7 @@ def main():
     # Load ONLY the test dataloader because training and validation aren't needed anymore.
     # The underscores (`_`) indicate that train_loader and val_loader are intentionally ignored.
     _, _, test_loader, class_to_idx = get_dataloaders(
-        data_root="data",      # Root folder where dataset is stored
+        data_root=DATA_ROOT,      # Root folder where dataset is stored
         batch_size=32,         # Number of images passed at once during evaluation
         num_workers=2,         # Parallel workers for faster data loading
     )

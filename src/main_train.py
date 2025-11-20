@@ -1,7 +1,11 @@
 import torch
-from src.pre_process import get_dataloaders
-from src.model import build_model
-from src.train import train_model
+from pre_process import get_dataloaders
+from model import build_model
+from train import train_model
+from pathlib import Path 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = PROJECT_ROOT / "data"
 
 def main():
     # Decide whether to use GPU (cuda) or CPU for training.
@@ -14,7 +18,7 @@ def main():
     # - batch_size is how many images per batch.
     # - num_workers is how many subprocesses to use for data loading.
     train_loader, val_loader, test_loader, class_to_idx = get_dataloaders(
-        data_root="data/classification",
+        data_root=DATA_ROOT,
         batch_size=32,
         num_workers=2,
     )

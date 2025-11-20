@@ -1,8 +1,12 @@
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+from pathlib import Path
 
 # For resizing image to 300 pixels
 IMG_SIZE = 300
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = PROJECT_ROOT / "data"
 
 # Function for transforming/preparing data for training
 def transform_data(): 
@@ -25,7 +29,9 @@ def transform_data():
     return train_transform, eval_transform
 
 # Function for getting and loading data for training
-def get_dataloaders(data_root="data/classification", batch_size=32, num_workers=2):
+def get_dataloaders(data_root=DATA_ROOT, batch_size=32, num_workers=2):
+    print("Using data_root:", data_root)  # debug print
+    
     train_transform, eval_transform = transform_data()
 
     train_dataset = datasets.ImageFolder(f"{data_root}/train", transform=train_transform)
