@@ -38,6 +38,7 @@ def evaluate_model(model, test_loader, device):
     # Convert lists into NumPy arrays for easier processing with sklearn
     all_labels = np.array(all_labels)
     all_probs  = np.array(all_probs)
+    
 
     # ------------------------------
     # Thresholding to get class labels
@@ -46,6 +47,9 @@ def evaluate_model(model, test_loader, device):
     # prob >= 0.5 → class 1, prob < 0.5 → class 0
     preds = (all_probs >= 0.5).astype(int)
 
+    print(all_labels)
+    print(preds)
+    
     # ------------------------------
     # Confusion matrix and metrics
     # ------------------------------

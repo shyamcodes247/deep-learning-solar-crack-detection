@@ -28,7 +28,8 @@ def main():
 
     # Build the ResNet18 model (optionally with pretrained ImageNet weights).
     # The build_model function will also replace the final layer for binary classification.
-    model = build_model(pretrained=True)
+    model = build_model(pretrained=False)
+    
 
     # Train the model using the training and validation DataLoaders.
     # - device: CPU or GPU to run on
@@ -40,7 +41,7 @@ def main():
         train_loader=train_loader,
         val_loader=val_loader,
         device=device,
-        num_epochs=1,
+        num_epochs=10,
         lr=0.035,  # chosen to match the paper's experimental setup
     )
 

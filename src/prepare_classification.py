@@ -13,7 +13,7 @@ DATASET_ROOT = Path("data")
 
 
 # Where to save classification dataset
-OUT = Path("data/classification")
+OUT = Path("data")
 
 #can sub in split as train or test
 def prepare_split(split):

@@ -28,7 +28,7 @@ from tqdm import tqdm
 
 
 def train_model(model, train_loader, val_loader, device,
-                num_epochs=1, lr=0.035):
+                num_epochs=10, lr=0.035):
     """
     Trains a binary classification model using PyTorch.
 
