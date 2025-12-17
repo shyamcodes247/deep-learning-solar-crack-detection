@@ -7,12 +7,24 @@ import torchvision.transforms.functional as TF
 from torch.utils.data import Dataset
 
 class SegmentationDataset(Dataset):
-    def __init__(self, images_dir, masks_dir, img_size=(300,300), augment=False):
+    def __init__(self, images_dir, masks_dir, img_size=(300,300), augment=False, id_list=None):
         self.images_dir = Path(images_dir)
         self.masks_dir = Path(masks_dir)
         self.ids = sorted([f for f in os.listdir(self.images_dir) if f.lower().endswith(('.png','.jpg','.jpeg'))])
         self.img_size = img_size
         self.augment = augment
+        
+          # If user supplies a list of filenames to use
+        if id_list is not None:
+            self.ids = id_list
+        
+        else:
+            # Automatically find all valid image files
+            valid_ext = (".png", ".jpg", ".jpeg")
+            self.ids = sorted([
+                f for f in os.listdir(self.images_dir)
+                if f.lower().endswith(valid_ext)
+            ])
 
     def __len__(self):
         return len(self.ids)
