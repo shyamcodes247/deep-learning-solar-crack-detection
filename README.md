@@ -1,94 +1,72 @@
-# 🪐 Solar Cell Crack Detection using Deep Learning (ResNet18 + PyTorch)
+# Solar Cell Crack Detection — Image Segmentation with DeepLabv3
 
-> Automatically detect micro-cracks in solar cells using AI.
-
-This project uses a Convolutional Neural Network (CNN) built with **PyTorch** to classify electroluminescence (EL) solar cell images as either:
-
-- 🟢 **No Defect**
-- 🔴 **Contains Crack**
-
-The model is trained using **transfer learning (ResNet18)** and evaluated using accuracy, sensitivity, specificity, confusion matrix, and ROC–AUC.
+This project implements **image segmentation** to detect micro‑cracks in solar cells using a **DeepLabv3‑ResNet50** model.  
+It replaces the earlier **binary image classification** approach with a **pixel‑wise segmentation model**, providing fine‑grained crack localization and far more meaningful evaluation.
 
 ---
 
-## 🔍 Motivation
+## 🔄 Shift from Classification → Segmentation
 
-Solar cracks are often subtle and hard to identify manually in EL images. Automated detection:
+Originally, this repository attempted to classify solar cell images as *cracked* or *not cracked*.  
+This approach had major limitations:
 
-- Reduces inspection time  
-- Helps maintain manufacturing quality  
-- Detects hidden micro-fractures before panels are deployed  
-- Prevents long-term efficiency loss in photovoltaic systems  
+- It could **not show where cracks occur**
+- Subtle micro‑cracks often went undetected
+- Labels were too coarse for real analysis
 
-This project demonstrates how deep learning can support scalable, automated inspection.
+The project was rebuilt around **semantic segmentation**, allowing:
+
+- Pixel‑accurate crack localization  
+- Better interpretability and visualization  
+- Stronger evaluation metrics (IoU, Dice, F1, etc.)  
+- Improved real‑world applicability  
 
 ---
 
-## 📁 Dataset
 
-Dataset: **Dataset of Solar Cells Defect Segmentation**  
-Source: https://www.kaggle.com/datasets/yaozhang01182010/dataset-of-solar-cells-defect-segmentation
+Each mask is a **binary image** (`0 = background`, `1 = crack`).
 
 ---
 
 ## 🧠 Model Architecture
 
-- ResNet-18 backbone (ImageNet pretrained)
-- Final fully connected layer replaced for binary classification
-- Loss: **Binary Cross Entropy with Logits (BCEWithLogitsLoss)**
-- Optimizer: **Adam**
-- Augmentations: resize, normalization, random horizontal flips
+The model is based on:
+
+- **DeepLabv3 (ResNet‑50 backbone)**
+- Single‑channel sigmoid output for binary segmentation
+- Loss function: **BCE + Dice Loss**
+- Pixel‑level thresholding at `0.5`
+- Albumentations for preprocessing and augmentation
+
+Training uses:
+
+- **70%** training  
+- **15%** validation  
+- **15%** testing  
+
+Splits are performed via **ID lists**, not separate folders.
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Training Pipeline
 
-Install dependencies:
+Key components of the final training setup:
 
-pip install -r requirements.txt
+- Consistent IoU computation using:
 
-python -m venv venv
-source venv/bin/activate        # Mac/Linux
-venv\Scripts\activate           # Windows
+  ```python
+  preds = (torch.sigmoid(logits) >= 0.5)
 
-## 🚀 Training
+## FINAL METRICS
+- IoU:        0.6003
+- Dice:       0.5681
+- Precision:  0.5482
+- Recall:     0.6308
+- F1 Score:   0.5681
 
-Run the training script:
-
-python main_train.py
-
-The best-performing model checkpoint will be saved automatically as:
-
-best_model.pt
-
-## 🧪 Evaluation
-
-Evaluate model performance on the unseen test dataset:
-
-python eval.py
-
-This command prints key metrics, including:
-
-* Accuracy
-
-* Sensitivity (recall for crack detection)
-
-* Specificity
-
-* ROC–AUC
-
-## Confusion matrix values
-
-Example output:
-* Accuracy: 92.54%
-* Sensitivity: 89.73%
-* Specificity: 94.10%
-* AUC: 0.96
-
-## 📊 Results
-* Accuracy: 0.92
-* Sensitivity: 0.89
-* Specificity: 0.94
-* AUC: 0.96
-
-## ROC Curve
+# 🚀 Future Work
+Potential extensions:
+- Replace DeepLabv3 with U‑Net++, DeepLabv3+, or HRNet
+- Add post‑processing (morphology, CRFs, contour smoothing)
+- Introduce crack classification or severity scoring
+- Use semi‑supervised learning to expand dataset
