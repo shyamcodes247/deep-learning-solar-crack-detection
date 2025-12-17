@@ -58,11 +58,11 @@ Key components of the final training setup:
   preds = (torch.sigmoid(logits) >= 0.5)
 
 ## FINAL METRICS
-- IoU:        0.6003
-- Dice:       0.5681
-- Precision:  0.5482
-- Recall:     0.6308
-- F1 Score:   0.5681
+- IoU:        0.710471
+- Dice:       0.568081
+- Precision:  0.548232
+- Recall:     0.630767
+- F1 Score:   0.568081
 
 # 🚀 Future Work
 Potential extensions:
